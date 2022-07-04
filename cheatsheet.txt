@@ -1,0 +1,248 @@
+## switch-modes
+Normal: Insert before char | i
+Normal: Insert after char | a
+Normal: insert before first non-space char | I
+Normal: insert at the end of the line | A
+Normal: insert in a new line below current line | o
+Normal: insert in a new line before current line | O
+Normal: command mode | :
+Normal: command mode | <space><space>
+Normal: visual mode | v
+Normal: visual mode (lines) | V
+Normal: replace mode | R
+Insert: normal mode | <ESC> or jj
+Command: normal mode | <ESC> or jj
+Visual: normal mode | <ESC>
+Replace: normal mode | <ESC> or jj
+
+## navigation @motion
+Last history position (Normal) | <C-p>
+Undo las history position (Normal) | <C-n>
+Move left (Normal) | h
+Move right (Normal) | l
+Move up (Normal) | k
+Move down (Normal) | j
+jump to next char (N,OP) | f char1
+jump to prev char (N,OP) | F char1
+jump to next char (exclusive) (N,OP) | t char1
+jump to prev char (exclusive) (N,OP) | T char1
+jump to next 2 chars (N) | s char1 (char2|shortcut)? (<space>|<tab>)* label?
+jump to prev 2 chars (N) | S char1 (char2|shortcut)? (<space>|<tab>)* label?
+jump to next 2 chars (OP) | z char1 (char2|shortcut)? (<space>|<tab>)* label?
+jump to prev 2 chars (OP | Z char1 (char2|shortcut)? (<space>|<tab>)* label?
+jump to next 2 chars (exclusive) (N,OP) | x char1 (char2|shortcut)? (<space>|<tab>)* label?
+jump to prev 2 chars (exclusive) (N,OP) | X char1 (char2|shortcut)? (<space>|<tab>)* label?
+jump to next 2 chars (cross-window) (N) | gs char1 (char2|shortcut)? (<space>|<tab>)* label?
+jump to prev 2 chars (cross-window) (N) | gS char1 (char2|shortcut)? (<space>|<tab>)* label?
+Next word (Normal) | w
+Beginning of word (Normal) | b
+End of word (Normal) | e
+Beginning of line (Normal) | 0
+First non-space char (Normal) | ^
+End of line (Normal) | $
+Current line to center of screen (Normal) | zz
+Current line to top of screen (Normal) | zt
+Current line to bottom of screen (Normal) | zb
+Find open buffer (normal) | <leader>fb
+Jump buffer beginning (Normal) | gg
+Jump buffer end (Normal) | G
+Full page down (Normal) | <C-f>
+Full page back-up (Normal) | <C-b>
+Down half page (Normal) | <C-d>
+Up half page (Normal) | <C-u>
+Matching encloser (Normal) | %
+Next buffer (Command) | bn
+Prev buffer (Command) | bp
+Prev history (Normal, Command, fzf) | <C-p>
+Next in history (Normal, Command, fzf) | <C-n>
+Find command in history (Normal, View) | <leader>fc
+Find command in history (Command) | <C-f>
+Record mark (Normal) | m<Any letter>
+Move to mark line (Normal) | '<mark letter>
+Move to mark (Normal) | j'<mark letter>
+
+## read-write @open-save @close-buffer
+Open current in horizontal split (Normal) | <Leader>oh
+Open current in vertical split (Normal) | <leader>ov
+Open explorer (telescope) in cwd (Normal) | <leader>ex
+Open explorer (telescope) in current file path (Normal) | -
+Find File (Normal) | <leader>ff
+Quit neovim and ask if buffers not saved (Normal,Insert) | <C-x><C-x>
+Close buffer and ask if not saved (Normal,Insert) | <C-x>
+Close buffer and keep window layout (Normal,Insert) | <C-q>
+Save all buffers (normal,Insert) | <C-s><C-s>
+Save buffer (Normal,Insert) | <C-s>
+Undo all changes (Restore saved file) (Normal,Insert) | <M-u>
+Save buffer with other name (command) | saveas <buffer name>
+Save buffer with other name in same path (command) | saveas %:p:h/<buffer name>
+
+## edit
+Toggle line comments (normal) | gcc
+Toggle block comments (normal) | gbc
+Toggle line comments for X lines (normal) | <number of lines>gcc
+Toggle block comments for X lines (normal) | <number of lines>gbc
+Toggle line comments using motions (normal) | gc<motion>
+Toggle block comments using motions (normal) | gb<motion>
+Toggle line comments (visual) | gc
+Toggle block comments (visual) | gb
+Insert comment at the end of the line (normal) | gcA
+Insert comment to the next line (normal) | gco
+Insert comment to the prev line (normal) | gcO
+Copy (normal, visual) | y
+Copy line (normal) | yy
+Copy path to the file (normal) | yp
+Cut (normal, visual) | <leader>k
+Cut line (normal) | <keader>kk
+Paste | (normal) p
+Paste (insert) | <c-v>
+Enable/disable folding | zi
+Toggle all cursor folding levels (normal) | zA
+Close all cursor folding levels (normal) | zC
+Open all cursor folding levels (normal) | zO
+Toggle cursor folding level (normal) | za
+Close cursor folding level (normal) | zc
+Open cursor folding level (normal) | zo
+Reduce folding 1 level (normal) | zr
+More folding 1 level (normal) | zm
+Open all folds (normal) | zR
+Fold all (normal) | zM
+Init selection (normal) | gnn
+Increment nodes selection | grn
+Decrement nodes selection | grm
+Increment scope (visual) | grc
+History undo (normal) | u
+History undo all changes in line (normal) | U
+History redo (normal) | <c-r>
+Replace to lowercase (visual) | u
+Replace to switch case (visual) | ~
+Replace to uppercase (visual) | U
+Prettier (normal,visual) | <leader>p<motion to select in normal>
+Indent line (normal) | >>
+Dedent line (normal) | <<
+Indent selection (visual) | >
+Dedent selection (visual) | <
+Surround text (normal) | ys<motion><wrapping char>
+Delete surround text (normal) | ds<wrapping char>
+Change surround (normal) | cs<from><to>
+Find surround to the right (normal) | ysf<wrapping char>
+Find surround to the left (normal) | ysF<wrapping char>
+Highlight surround (normal) | ysh<wrapping char>
+Join 2 lines (normal) | J
+
+## search
+Find nex char | f<search-char>
+Search | /<search-term>
+Search next match | n
+Search prev match | N
+Find next word under cursor in file (normal) | *
+Find previous word under cursor in file (normal) | #
+Find next symbol (normal) | <M-n>
+Find prev symbol (normal) | <M-p>
+Find word under cursor in working directory (normal) | <leader>fw
+Find string in working directory (normal) | <Leader>fs
+Find and replace in the line | :s/<search-term>/<replace-term>
+Find and replace in a range | :<start-line>,<end-line>s/<search-term>/<replace-term>/g
+Find and replace in buffer | :%s/<search-term>/<replace-term>/g
+Find and replace with confirmation | <my-search-and-replace-entry>/gc
+Replace current (Find and replace with confirmation) | y
+Skip current (Find and replace with confirmation) | n
+Replace all (Find and replace with confirmation) | a
+Quit search and replace (Find and replace with confirmation) | q
+Replace current and quit (Find and replace with confirmation) | l
+Scroll text (Find and replace with confirmation) | <c-e> and <c-y>
+
+## file-tree @directories @files
+New File or dir(with backslash "/" at the end) (normal) | c
+New File or dir(with backslash "/" at the end) (insert) | <A-c>
+Create File dir(with backslash "/" at the end) | <S-CR>
+Rename (normal) | r
+Rename (insert) | <A-r>
+Move multi-selected files to current path (normal) | m
+Move multi-selected files to current path (insert) | <A-m>
+Copy multi-selected files to current path (normal) | y
+Copy multi-selected files to current path (insert) | <A-y>
+Delete multi-selected files (normal) | d
+Delete multi-selected files  (insert) | <A-d>
+Open with default system application (normal) | o
+Open with default system application (insert) | <C-o>
+Go to parent dir (normal) | g
+Go to parent dir (insert) | <C-g>
+Go to home dir (normal) | e
+Go to home dir (insert) | <C-e>
+Go to cwd (normal) | w
+Go to cwd (insert) | <C-w>
+Change cwd (normal) | t
+Change cwd (insert) | <C-t>
+Toggle between file/folder browser (normal) | f
+Toggle between file/folder browser (insert) | <C-f>
+Toggle hidden (normal) | h
+Toggle hidden (insert) | <C-h>
+
+## telescope @finder
+Cancel and do nothing | <C-x>
+Open in current | <CR>
+open in Horizontal split | <C-h>
+open in Vertical split | <C-v>
+Search exact match | '<exact text to find>
+Search start with | ^<exact text to find>
+Search ends with | <exact text to find>$
+Search do not include | !<exact text that not includes>
+Search start do not include | !^<exact text that not includes>
+Search end do not include | !<exact text that not includes>$
+Search or operator | <includes this> | <includes also this>
+
+## git
+Open log (normal) | <leader>gla
+Open log: Checkout action (Telescope) | <CR>
+Open log: Reset mixed (Telescope) | <CR>m
+Open log: Reset soft (Telescope) | <CR>s
+Open log: Reset hard (Telescope) | <CR>h
+Open log for current file (normal) | <leader>glf
+Open log for current file: Checkout selection (Telescope) | <CR>
+Open status (normal) | <leader>gsa
+Add buffer (normal) | <leader>gaf
+Add hunk (normal, visual) | <leader>gah
+Undo add hunk (normal) | <leader>guh
+Reset buffer (normal) | <leader>grf
+Reset hunk (normal, visual) | <leader>grh
+Blame, Get info about line (normal) | <leader>gil
+
+## code @completion @language-server @language-server-provider @lsp
+Completion menu, navigate through options (Insert) | <Tab>
+Trigger completion menu (Insert) | <C-space> (after text to complete)
+Go to implementation (normal) | gi
+Go to definition (normal) | gd
+Signature help (normal) | gs
+Hover info (normal) | K
+Code action (normal) | <leader>ca
+Range Code action (visual) | <leader>ca
+Rename symbol (normal) | <leader>rn
+Show list of diagnostics (normal) | <leader>fd
+Show diagnostic under cursor (normal) | <leader>sd
+Language servers overview (command) | LspInstallInfo
+Install or reinstall server (command) | LspInstall <server>
+Uninstall server (command) | LspUninstall <server>
+Installed language servers (command) | LspPrintInstalled
+
+## emmet
+Tutorial | https://raw.githubusercontent.com/mattn/emmet-vim/master/TUTORIAL
+Expand abbreviation (insert) | <C-y>,
+Wrap text with tags (VisualLine) | <select text to wrap><C-y>,
+Start HTML doc (insert) | html:5<C-y>,
+
+## help @cheatsheet
+Show cheatsheet (normal) | <leader>?
+Edit cheatsheet (normal) | <c-e>
+Edit cheatsheet (command) | :CheatsheetEdit
+Yank the cheatcode (telescope) | <c-y>
+Fill commandline with cheatcode (telescope) | <CR>
+Show specific keymap (command) | :verbose <imap | nmap ...> <key>
+
+## markdown
+Markdown preview (normal) | <leader>mp
+Follow external link (normal) | gx
+
+#--------------- TODO ---------------
+#Plugins Maps/Review usage
+#    Test Runner
+#    NETRW Advanced
