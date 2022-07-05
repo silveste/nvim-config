@@ -393,6 +393,7 @@ require('telescope').setup{
     dynamic_preview_title = true,
     path_display = {"truncate"},
     -- layout_strategy = 'flex',
+    sorting_strategy = 'ascending',
     layout_config = {
       prompt_position = 'top',
       scroll_speed = 1
@@ -574,7 +575,7 @@ cnoremap <silent> <C-f> :Telescope command_history<CR>
 " Files/Buffers
 nnoremap <silent> <leader>oh :split<CR>
 nnoremap <silent> <leader>ov :vsplit<CR>
-nnoremap <silent> <leader>ff :Telescope find_files<CR>
+nnoremap <silent> <leader>ff :Telescope find_files find_command=rg,--hidden,--files<CR>
 nnoremap <silent> <C-q> :lua MiniBufremove.delete()<CR>
 inoremap <silent> <C-q> <Esc>:lua MiniBufremove.delete()<CR>
 inoremap <silent> <C-x> <Esc>:conf bwipe<CR>

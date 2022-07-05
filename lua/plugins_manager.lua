@@ -72,7 +72,7 @@ return require("packer").startup(function()
 		config = function()
 			require("goto-preview").setup({})
 		end,
-	})
+	}) -- Show some code actions in floating windows
 
 	if packer_bootstrap then
 		require("packer").sync()

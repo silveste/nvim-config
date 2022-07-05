@@ -206,10 +206,12 @@ Undo add hunk (normal) | <leader>guh
 Reset buffer (normal) | <leader>grf
 Reset hunk (normal, visual) | <leader>grh
 Blame, Get info about line (normal) | <leader>gil
+Toggle merge tool (normal) | <leader>mt
 
 ## code @completion @language-server @language-server-provider @lsp
 Completion menu, navigate through options (Insert) | <Tab>
 Trigger completion menu (Insert) | <C-space> (after text to complete)
+Close all previews (normal) | gp
 Go to implementation (normal) | gi
 Go to definition (normal) | gd
 Signature help (normal) | gs
