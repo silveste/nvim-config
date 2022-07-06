@@ -12,6 +12,11 @@
 " ----------------- LUA CONFIG ---------------------------
 lua <<EOF
 ------------------------ CORE SETTINGS ---------------------------
+local getCwdName = function()
+  local cwd = vim.loop.cwd()
+  return string.match(cwd,"[^\\/]+$")
+end
+
 vim.o.shellcmdflag = '-ic'
 -- DEFINE LEADER
 vim.g.mapleader =","
@@ -98,6 +103,30 @@ vim.cmd('colorscheme nordfox')
 ------------------------ COMMENTS -------------------------
 require('Comment').setup()
 
+------------------------ DASHBOARD -----------------
+local alpha = require("alpha")
+local dashboard = require("alpha.themes.dashboard")
+
+-- Set menu
+dashboard.section.buttons.val = {
+    dashboard.button( "r", "  Recent" , ":Telescope oldfiles<CR>"),
+    dashboard.button( "p", "פּ  Projects" , ":Telescope projects<CR>"),
+    dashboard.button( "b", "ﱮ  CWD Explorer" , ":Telescope file_browser<CR>"),
+    dashboard.button( "e", "  New file" , ":ene <BAR> startinsert <CR>"),
+    dashboard.button( "f", "  Find file", ":Telescope find_files find_command=rg,--hidden,--files<CR>"),
+    dashboard.button( "t", "  Find string in CWD", ":Telescope live_grep<CR>"),
+    dashboard.button( "u", "  Update plugings", ":PackerSync<CR>"),
+    dashboard.button( "s", "  Settings" , ":e $MYVIMRC<CR>"),
+    dashboard.button( "q", "  Quit NVIM", ":conf qa<CR>"),
+}
+
+-- Send config to alpha
+alpha.setup(dashboard.opts)
+
+-- Automatically open alpha when the last buffer is deleted and only one window left
+-- Not working with tabs
+vim.cmd [[ au BufDelete * if empty(filter(tabpagebuflist(), '!buflisted(v:val)')) && winnr('$') == 1 | exec 'Alpha' | endif ]]
+
 ------------------------ ILLUMINATE -----------------
   vim.api.nvim_command [[ hi def link LspReferenceText CursorLine ]]
   vim.api.nvim_command [[ hi def link LspReferenceWrite CursorLine ]]
@@ -112,6 +141,7 @@ vim.opt.listchars={eol = '↴', tab = '▸ ', trail = '·'}
 require("indent_blankline").setup {
   char = "|",
   buftype_exclude = {"terminal"},
+  filetype_exclude = { "alpha" },
   show_end_of_line = true,
 }
 ------------------------ GIT -------------------------
@@ -297,6 +327,13 @@ vim.diagnostic.config({
   virtual_text = false
 })
 
+------------------------ PROJECTS -------------------------
+require("project_nvim").setup {
+  -- your configuration comes here
+  -- or leave it empty to use the default settings
+  -- refer to the configuration section below
+}
+
 ------------------------ SCROLLING -------------------------
 require('neoscroll').setup({
   easing_function='quadratic'
@@ -316,18 +353,15 @@ vim.opt.spellsuggest = {'best',9}
 require('lualine').setup{
   options = {
     icons_enabled = true,
-    component_separators = { left = '', right = ''},
+    component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
     disabled_filetypes = {}
   },
   sections = {
     lualine_a = {'mode'},
-    lualine_b = {'branch','diff'},
+    lualine_b = {getCwdName, 'branch','diff'},
     lualine_c = {'filename', 'lsp_progress'},
     lualine_x = {
-      'encoding',
-      'fileformat',
-      'filetype',
       {
         'diagnostics',
         -- table of diagnostic sources, available sources:
@@ -337,8 +371,8 @@ require('lualine').setup{
         sections = {'error', 'warn', 'info', 'hint'},
       }
     },
-    lualine_y = {'progress'},
-    lualine_z = {'location'}
+    lualine_y = {'encoding', 'fileformat', 'filetype' },
+    lualine_z = {'progress', 'location'}
   },
   inactive_sections = {
     lualine_a = {},
@@ -459,6 +493,8 @@ require('telescope').setup{
 }
 
 require("telescope").load_extension "file_browser"
+require('telescope').load_extension('projects') -- Requires project_nvim
+vim.api.nvim_set_keymap( "n", "<leader>fp", ":Telescope projects<CR>", { noremap = true })
 vim.api.nvim_set_keymap( "n", "<leader>ex", ":Telescope file_browser<CR>", { noremap = true })
 vim.api.nvim_set_keymap( "n", "-", ":Telescope file_browser path=%:p:h<CR>", { noremap = true })
 
@@ -604,6 +640,7 @@ cnoremap <C-v> <C-r>+
 cnoremap <D-v> <C-r>+
 " Yank path of the file
 nnoremap yp :let @*=expand("%:p")<CR>
+nnoremap yw :let @*=getcwd()<CR>
 " workaraond with issue with copyQ clipboard manager
 map! <S-Insert> <C-v>
 " Send deleted text to blackhole register (disables cut function)

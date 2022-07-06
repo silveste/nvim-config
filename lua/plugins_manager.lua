@@ -67,12 +67,14 @@ return require("packer").startup(function()
 	use("mattn/emmet-vim") -- Emmet
 	use("kosayoda/nvim-lightbulb") -- Show lightbulb icon when there is code actions available
 	use("arkav/lualine-lsp-progress") -- Show LSP async action progress on lualine
+	use("ahmedkhalf/project.nvim") -- Manage projects
 	use({
 		"rmagatti/goto-preview",
 		config = function()
 			require("goto-preview").setup({})
 		end,
 	}) -- Show some code actions in floating windows
+	use({ "goolord/alpha-nvim", requires = "kyazdani42/nvim-web-devicons" }) --Dashboard
 
 	if packer_bootstrap then
 		require("packer").sync()

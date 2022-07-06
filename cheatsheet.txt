@@ -91,6 +91,7 @@ Insert comment to the prev line (normal) | gcO
 Copy (normal, visual) | y
 Copy line (normal) | yy
 Copy path to the file (normal) | yp
+Copy cwd path | yw
 Cut (normal, visual) | <leader>k
 Cut line (normal) | <keader>kk
 Paste | (normal) p
@@ -207,6 +208,21 @@ Reset buffer (normal) | <leader>grf
 Reset hunk (normal, visual) | <leader>grh
 Blame, Get info about line (normal) | <leader>gil
 Toggle merge tool (normal) | <leader>mt
+
+## projects @cwd
+Manage projects (normal) | <leader>fp
+Find project files (Telescope, normal) | f
+Find project files (Telescope, insert) | <c-f>
+Browse project files (Telescope, normal) | b
+Browse project files (Telescope, insert) | <c-b>
+Delete project (Telescope, normal) | d
+Delete project (Telescope, insert) | <c-d>
+Search in project files (Telescope, normal) | s
+Search in project files (Telescope, insert) | <c-s>
+Recent project files (Telescope, normal) | r
+Recent project files (Telescope, insert) | <c-r>
+Change working directory (Telescope, normal) | w
+Change working directory (Telescope, insert) | <c-w>
 
 ## code @completion @language-server @language-server-provider @lsp
 Completion menu, navigate through options (Insert) | <Tab>
