@@ -175,6 +175,11 @@ _G.packer_plugins = {
     path = "/Users/tfernandez/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua",
     url = "https://github.com/norcalli/nvim-colorizer.lua"
   },
+  ["nvim-hlslens"] = {
+    loaded = true,
+    path = "/Users/tfernandez/.local/share/nvim/site/pack/packer/start/nvim-hlslens",
+    url = "https://github.com/kevinhwang91/nvim-hlslens"
+  },
   ["nvim-lightbulb"] = {
     loaded = true,
     path = "/Users/tfernandez/.local/share/nvim/site/pack/packer/start/nvim-lightbulb",
@@ -189,6 +194,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/tfernandez/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
+  },
+  ["nvim-scrollbar"] = {
+    loaded = true,
+    path = "/Users/tfernandez/.local/share/nvim/site/pack/packer/start/nvim-scrollbar",
+    url = "https://github.com/petertriho/nvim-scrollbar"
   },
   ["nvim-treesitter"] = {
     loaded = true,

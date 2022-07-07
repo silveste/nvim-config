@@ -75,6 +75,8 @@ return require("packer").startup(function()
 		end,
 	}) -- Show some code actions in floating windows
 	use({ "goolord/alpha-nvim", requires = "kyazdani42/nvim-web-devicons" }) --Dashboard
+	use("petertriho/nvim-scrollbar") -- Scrollbar
+	use({ "kevinhwang91/nvim-hlslens" }) -- Enhance search
 
 	if packer_bootstrap then
 		require("packer").sync()

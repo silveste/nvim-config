@@ -42,11 +42,6 @@ vim.opt.number = true -- Line number in gutter
 vim.o.splitbelow = true
 vim.o.splitright = true
 
--- SEARCH
-vim.opt.incsearch = true -- Jump to matching terms, but keep cursor until <CR>
-vim.opt.ignorecase = true -- Ignore case in searches
-vim.opt.smartcase = true -- Don't ignore case if using caps
-
 -- VISUAL STYLES
 vim.opt.termguicolors = true -- Set true colors
 vim.opt.guifont = 'FiraCode Nerd Font Mono:h16'
@@ -334,7 +329,28 @@ require("project_nvim").setup {
   -- refer to the configuration section below
 }
 
+ ------------------------ SEARCH ------------------------
+vim.opt.incsearch = true -- Jump to matching terms, but keep cursor until <CR>
+vim.opt.ignorecase = true -- Ignore case in searches
+vim.opt.smartcase = true -- Don't ignore case if using caps
+
+local kopts = {noremap = true, silent = true}
+vim.api.nvim_set_keymap('n', 'n',
+    [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+    kopts)
+vim.api.nvim_set_keymap('n', 'N',
+    [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+    kopts)
+vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+
+vim.api.nvim_set_keymap('n', '<Leader>nh', ':noh<CR>', kopts)
+
 ------------------------ SCROLLING -------------------------
+require("scrollbar").setup()
+require("scrollbar.handlers.search").setup() -- Add search marks in scroll bar
 require('neoscroll').setup({
   easing_function='quadratic'
 })
@@ -354,12 +370,11 @@ require('lualine').setup{
   options = {
     icons_enabled = true,
     component_separators = { left = '', right = ''},
-    section_separators = { left = '', right = ''},
     disabled_filetypes = {}
   },
   sections = {
-    lualine_a = {'mode'},
-    lualine_b = {getCwdName, 'branch','diff'},
+    lualine_a = {{'mode', separator = {left = '', right = ''}}},
+    lualine_b = {{getCwdName, 'branch','diff', separator = {left = '', right = ''}}},
     lualine_c = {'filename', 'lsp_progress'},
     lualine_x = {
       {
@@ -369,10 +384,10 @@ require('lualine').setup{
         sources = {'nvim_diagnostic'},
         -- displays diagnostics from defined severity
         sections = {'error', 'warn', 'info', 'hint'},
-      }
+      },
     },
-    lualine_y = {'encoding', 'fileformat', 'filetype' },
-    lualine_z = {'progress', 'location'}
+    lualine_y = {{'encoding', 'fileformat', 'filetype', separator = {left = '', right = ''}}},
+    lualine_z = {{'location', separator = {left = '', right = ''}}}
   },
   inactive_sections = {
     lualine_a = {},

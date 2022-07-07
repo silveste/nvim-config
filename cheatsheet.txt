@@ -24,8 +24,8 @@ Move up (Normal) | k
 Move down (Normal) | j
 jump to next char (N,OP) | f char1
 jump to prev char (N,OP) | F char1
-jump to next char (exclusive) (N,OP) | t char1
-jump to prev char (exclusive) (N,OP) | T char1
+jump before next char (N,OP) | t char1
+jump before prev char (N,OP) | T char1
 jump to next 2 chars (N) | s char1 (char2|shortcut)? (<space>|<tab>)* label?
 jump to prev 2 chars (N) | S char1 (char2|shortcut)? (<space>|<tab>)* label?
 jump to next 2 chars (OP) | z char1 (char2|shortcut)? (<space>|<tab>)* label?
@@ -131,20 +131,24 @@ Highlight surround (normal) | ysh<wrapping char>
 Join 2 lines (normal) | J
 
 ## search
-Find nex char | f<search-char>
 Search | /<search-term>
-Search next match | n
-Search prev match | N
-Find next word under cursor in file (normal) | *
-Find previous word under cursor in file (normal) | #
+Find next match without moving cursor | <C-g>
+Find prev match without moving cursor | <C-t>
+Find next match and move cursor | n
+Find prev match and move cursor | N
+Find next word under cursor (normal) | *
+Find next symbol (word and string) under cursor (normal) | g*
+Find previous word under cursor (normal) | #
+Find previous symbol (word and string) under cursor (normal) | g#
 Find next symbol (normal) | <M-n>
 Find prev symbol (normal) | <M-p>
-Find word under cursor in working directory (normal) | <leader>fw
-Find string in working directory (normal) | <Leader>fs
-Find and replace in the line | :s/<search-term>/<replace-term>
-Find and replace in a range | :<start-line>,<end-line>s/<search-term>/<replace-term>/g
-Find and replace in buffer | :%s/<search-term>/<replace-term>/g
-Find and replace with confirmation | <my-search-and-replace-entry>/gc
+Search word under cursor in working directory (normal) | <leader>fw
+Search string in working directory (normal) | <Leader>fs
+Search and replace in the line | :s/<search-term>/<replace-term>
+Search and replace in a range | :<start-line>,<end-line>s/<search-term>/<replace-term>/g
+Search and replace in buffer | :%s/<search-term>/<replace-term>/g
+Search and replace with confirmation | <my-search-and-replace-entry>/gc
+Remove search results (remove highlight) | <leader>nh
 Replace current (Find and replace with confirmation) | y
 Skip current (Find and replace with confirmation) | n
 Replace all (Find and replace with confirmation) | a
