@@ -12,6 +12,7 @@ vim.cmd([[
 -- Comment if you are using and external packer.nvim package i.e. arch aur package: https://aur.archlinux.org/packages/nvim-packer-git/
 local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+local packer_bootstrap
 if fn.empty(fn.glob(install_path)) > 0 then
 	packer_bootstrap = fn.system({
 		"git",
@@ -23,7 +24,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 	})
 end
 
-return require("packer").startup(function()
+return require("packer").startup(function(use)
 	use("wbthomason/packer.nvim") -- Packer can manage itself
 
 	use({ "neovim/nvim-lspconfig" }) --LSP client config
