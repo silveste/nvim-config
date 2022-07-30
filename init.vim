@@ -106,7 +106,8 @@ local dashboard = require("alpha.themes.dashboard")
 dashboard.section.buttons.val = {
     dashboard.button( "r", "  Recent" , ":Telescope oldfiles<CR>"),
     dashboard.button( "p", "פּ  Projects" , ":Telescope projects<CR>"),
-    dashboard.button( "b", "ﱮ  CWD Explorer" , ":Telescope file_browser<CR>"),
+    dashboard.button( "b", "ﴤ  Home Explorer" , ":Telescope file_browser path=$HOME<CR>"),
+    dashboard.button( "w", "ﱮ  CWD Explorer" , ":Telescope file_browser<CR>"),
     dashboard.button( "e", "  New file" , ":ene <BAR> startinsert <CR>"),
     dashboard.button( "f", "  Find file", ":Telescope find_files find_command=rg,--hidden,--files<CR>"),
     dashboard.button( "t", "  Find string in CWD", ":Telescope live_grep<CR>"),
@@ -510,7 +511,8 @@ require('telescope').setup{
 require("telescope").load_extension "file_browser"
 require('telescope').load_extension('projects') -- Requires project_nvim
 vim.api.nvim_set_keymap( "n", "<leader>fp", ":Telescope projects<CR>", { noremap = true })
-vim.api.nvim_set_keymap( "n", "<leader>ex", ":Telescope file_browser<CR>", { noremap = true })
+vim.api.nvim_set_keymap( "n", "<leader>ew", ":Telescope file_browser<CR>", { noremap = true })
+vim.api.nvim_set_keymap( "n", "<leader>eh", ":Telescope file_browser path=$HOME<CR>", { noremap = true })
 vim.api.nvim_set_keymap( "n", "-", ":Telescope file_browser path=%:p:h<CR>", { noremap = true })
 
 ------------------------ TREESITTER -------------------------
@@ -655,7 +657,7 @@ cnoremap <C-v> <C-r>+
 cnoremap <D-v> <C-r>+
 " Yank path of the file
 nnoremap yp :let @*=expand("%:p")<CR>
-nnoremap yw :let @*=getcwd()<CR>
+nnoremap yc :let @*=getcwd()<CR>
 " workaraond with issue with copyQ clipboard manager
 map! <S-Insert> <C-v>
 " Send deleted text to blackhole register (disables cut function)

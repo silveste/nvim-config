@@ -61,10 +61,11 @@ Record mark (Normal) | m<Any letter>
 Move to mark line (Normal) | '<mark letter>
 Move to mark (Normal) | j'<mark letter>
 
-## read-write @open-save @close-buffer
+## read-write @open @save @close @buffer @browser @files
 Open current in horizontal split (Normal) | <Leader>oh
 Open current in vertical split (Normal) | <leader>ov
-Open explorer (telescope) in cwd (Normal) | <leader>ex
+Open explorer (telescope) in home (Normal) | <leader>eh
+Open explorer (telescope) in cwd (Normal) | <leader>ew
 Open explorer (telescope) in current file path (Normal) | -
 Find File (Normal) | <leader>ff
 Quit neovim and ask if buffers not saved (Normal,Insert) | <C-x><C-x>
@@ -91,7 +92,7 @@ Insert comment to the prev line (normal) | gcO
 Copy (normal, visual) | y
 Copy line (normal) | yy
 Copy path to the file (normal) | yp
-Copy cwd path | yw
+Copy cwd path | yc
 Cut (normal, visual) | <leader>k
 Cut line (normal) | <keader>kk
 Paste | (normal) p
@@ -231,7 +232,7 @@ Change working directory (Telescope, insert) | <c-w>
 ## code @completion @language-server @language-server-provider @lsp
 Completion menu, navigate through options (Insert) | <Tab>
 Trigger completion menu (Insert) | <C-space> (after text to complete)
-Close all previews (normal) | gp
+Close all previews (normal) | gP
 Go to implementation (normal) | gi
 Go to definition (normal) | gd
 Signature help (normal) | gs
