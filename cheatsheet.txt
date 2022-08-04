@@ -234,7 +234,13 @@ Completion menu, navigate through options (Insert) | <Tab>
 Trigger completion menu (Insert) | <C-space> (after text to complete)
 Close all previews (normal) | gP
 Go to implementation (normal) | gi
+Go to preview implementation (normal) | gpi
+Go to references (normal) | gr
+Go to preview references (normal) | gpr
 Go to definition (normal) | gd
+Go to preview definition (normal) | gpd
+Go to type definition (normal) | gD
+Go to preview type definition (normal) | gpD
 Signature help (normal) | gs
 Hover info (normal) | K
 Code action (normal) | <leader>ca
