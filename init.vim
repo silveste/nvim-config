@@ -180,6 +180,7 @@ local lspconfig = require('lspconfig')
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
+
 -- Preview for LSP's goto definition
 require('goto-preview').setup {}
 vim.api.nvim_set_keymap("n", "gP", "<cmd>lua require('goto-preview').close_all_win()<CR>", {noremap=true})
@@ -276,9 +277,9 @@ local null_ls_sources = {
     null_ls.builtins.formatting.trim_whitespace,
     null_ls.builtins.diagnostics.stylelint,
     null_ls.builtins.diagnostics.selene,
-    null_ls.builtins.diagnostics.eslint_d,
+    --null_ls.builtins.diagnostics.eslint_d,
     null_ls.builtins.diagnostics.codespell,
-    null_ls.builtins.code_actions.eslint_d,
+    --null_ls.builtins.code_actions.eslint_d,
     null_ls.builtins.code_actions.gitsigns,
 }
 
@@ -317,6 +318,34 @@ lsp_installer.on_server_ready(function(server)
         -- opts.root_dir = function() ... end
     -- end
 
+    -- eslint config
+    if server.name == "eslint" then
+      opts.settings = {
+        codeAction = {
+          disableRuleComment = {
+            enable = true,
+            location = "separateLine"
+          },
+          showDocumentation = {
+            enable = true
+          }
+        },
+        codeActionOnSave = {
+          enable = false,
+          mode = "all"
+        },
+        format = false,
+        onIgnoredFiles = "off",
+        packageManager = "yarn",
+        quiet = false,
+        rulesCustomizations = {},
+        run = "onType",
+        useESLintClass = true,
+        validate = "on",
+        workingDirectory = { pattern = {"./", "./apps/*/", "./packages/*/" }}
+      }
+      -- opts.root_dir = require('lspconfig.util').find_git_ancestor
+    end
     -- This setup() function is exactly the same as lspconfig's setup function.
     -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
     server:setup(opts)
@@ -521,7 +550,7 @@ vim.api.nvim_set_keymap( "n", "-", ":Telescope file_browser path=%:p:h<CR>", { n
 
 ------------------------ TREESITTER -------------------------
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
     enable = true, -- false will disable the whole extension
     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
