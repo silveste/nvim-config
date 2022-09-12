@@ -61,7 +61,7 @@ Record mark (Normal) | m<Any letter>
 Move to mark line (Normal) | '<mark letter>
 Move to mark (Normal) | j'<mark letter>
 
-## read-write @open @save @close @buffer @browser @files
+## read-write @open @save @close @buffer @browser @files @layout
 Open current in horizontal split (Normal) | <Leader>oh
 Open current in vertical split (Normal) | <leader>ov
 Open explorer (telescope) in home (Normal) | <leader>eh
@@ -71,6 +71,7 @@ Find File (Normal) | <leader>ff
 Quit neovim and ask if buffers not saved (Normal,Insert) | <C-x><C-x>
 Close buffer and ask if not saved (Normal,Insert) | <C-x>
 Close buffer and keep window layout (Normal,Insert) | <C-q>
+Close window split and keep buffer open (Normal) | <C-w>q
 Save all buffers (normal,Insert) | <C-s><C-s>
 Save buffer (Normal,Insert) | <C-s>
 Undo all changes (Restore saved file) (Normal,Insert) | <M-u>
