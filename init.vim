@@ -6,7 +6,6 @@
 "-stylua
 "-stylelint
 "-selene-linter
-"-eslint_d
 "-codespell
 
 " ----------------- LUA CONFIG ---------------------------
@@ -277,9 +276,7 @@ local null_ls_sources = {
     null_ls.builtins.formatting.trim_whitespace,
     null_ls.builtins.diagnostics.stylelint,
     null_ls.builtins.diagnostics.selene,
-    --null_ls.builtins.diagnostics.eslint_d,
     null_ls.builtins.diagnostics.codespell,
-    --null_ls.builtins.code_actions.eslint_d,
     null_ls.builtins.code_actions.gitsigns,
 }
 
@@ -518,25 +515,60 @@ require('telescope').setup{
       theme = "dropdown"
     },
     find_files = {
---     theme = "dropdown"
+      theme = "dropdown",
+      layout_strategy = 'flex',
+      layout_config = {
+        width = { 0.75, max = 300, min = 80 },
+        height = { 0.75, max = 100, min = 20 }
+      }
     },
     buffers = {
---    theme = "dropdown"
+      theme = "dropdown",
+      layout_strategy = 'flex',
+      layout_config = {
+        width = { 0.75, max = 300, min = 80 },
+        height = { 0.75, max = 100, min = 20 }
+      }
     },
     live_grep = {
-      theme = "dropdown"
+      theme = "dropdown",
+      layout_strategy = 'flex',
+      layout_config = {
+        width = { 0.75, max = 300, min = 80 },
+        height = { 0.75, max = 100, min = 20 }
+      }
     },
     grep_string = {
-      theme = "dropdown"
+      theme = "dropdown",
+      layout_strategy = 'flex',
+      layout_config = {
+        width = { 0.75, max = 300, min = 80 },
+        height = { 0.75, max = 100, min = 20 }
+      }
     },
     git_commits = {
-      theme = "dropdown"
+      theme = "dropdown",
+      layout_strategy = 'flex',
+      layout_config = {
+        width = { 0.75, max = 300, min = 80 },
+        height = { 0.75, max = 100, min = 20 }
+      }
     },
     git_status = {
-      theme = "dropdown"
+      theme = "dropdown",
+      layout_strategy = 'flex',
+      layout_config = {
+        width = { 0.75, max = 300, min = 80 },
+        height = { 0.75, max = 100, min = 20 }
+      }
     },
     git_bcommits = {
-      theme = "dropdown"
+      theme = "dropdown",
+      layout_strategy = 'flex',
+      layout_config = {
+        width = { 0.75, max = 300, min = 80 },
+        height = { 0.75, max = 100, min = 20 }
+      }
     }
   }
 }
