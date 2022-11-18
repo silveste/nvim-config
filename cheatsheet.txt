@@ -213,7 +213,7 @@ Undo add hunk (normal) | <leader>guh
 Reset buffer (normal) | <leader>grf
 Reset hunk (normal, visual) | <leader>grh
 Blame, Get info about line (normal) | <leader>gil
-Toggle merge tool (normal) | <leader>mt
+Toggle merge tool to resolve merge conflicts (normal) | <leader>mt
 
 ## projects @cwd
 Manage projects (normal) | <leader>fp
