@@ -55,8 +55,8 @@ vim.cmd [[autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed 
 require('plugins_manager')
 
 ------------------------ AUTO PAIRS -------------------------
-require('pears').setup(function(conf)
-  conf.preset "tag_matching"
+-- require('pears').setup() --function(conf)
+  -- conf.preset "tag_matching"
   -- conf.on_enter(function(pears_handle)
   --   local cmp = require 'cmp'
   --   if cmp.visible() then
@@ -65,115 +65,114 @@ require('pears').setup(function(conf)
   --     pears_handle()
   --   end
   -- end)
-end)
+-- end)
 
+require('mini.pairs').setup({})
 ------------------------ BUFFERS LINE -------------------------
-require('bufferline').setup({
-options = {
-    -- theme = 'material-nvim',
-    theme = 'nordfox',
-    diagnostics = 'nvim_lsp',
-    separator_style = "thin",
-    show_buffer_close_icons = false,
-    close_command = 'conf bwipe %d'
-  }
-})
+ require('bufferline').setup({
+ options = {
+     theme = 'nordfox',
+     diagnostics = 'nvim_lsp',
+     separator_style = "thin",
+     show_buffer_close_icons = false,
+     close_command = 'conf bwipe %d'
+   }
+ })
 
 ------------------------ BUFFERS REMOVAL -------------------------
-require('mini.bufremove').setup({})
+ require('mini.bufremove').setup({})
 
 ------------------------ CHEATSHEET -------------------------
 
-require('cheatsheet').setup({
-  bundled_cheatsheets = false,
-  bundled_plugin_cheatsheets = false,
-})
--- Default mapping is not working
-vim.api.nvim_set_keymap('n', '<leader>?', '<cmd>Cheatsheet<CR>', { noremap=false, silent=true })
+ require('cheatsheet').setup({
+   bundled_cheatsheets = false,
+   bundled_plugin_cheatsheets = false,
+ })
+ -- Default mapping is not working
+ vim.api.nvim_set_keymap('n', '<leader>?', '<cmd>Cheatsheet<CR>', { noremap=false, silent=true })
 
 ------------------------ COLOR THEME -------------------------
 vim.cmd('colorscheme nordfox')
 
 ------------------------ COMMENTS -------------------------
-require('Comment').setup()
+ require('Comment').setup()
 
 ------------------------ DASHBOARD -----------------
-local alpha = require("alpha")
-local dashboard = require("alpha.themes.dashboard")
+ local alpha = require("alpha")
+ local dashboard = require("alpha.themes.dashboard")
 
--- Set menu
-dashboard.section.buttons.val = {
-    dashboard.button( "r", "  Recent" , ":Telescope oldfiles<CR>"),
-    dashboard.button( "p", "פּ  Projects" , ":Telescope projects<CR>"),
-    dashboard.button( "b", "ﴤ  Home Explorer" , ":Telescope file_browser path=$HOME<CR>"),
-    dashboard.button( "w", "ﱮ  CWD Explorer" , ":Telescope file_browser<CR>"),
-    dashboard.button( "e", "  New file" , ":ene <BAR> startinsert <CR>"),
-    dashboard.button( "f", "  Find file", ":Telescope find_files find_command=rg,--hidden,--files<CR>"),
-    dashboard.button( "t", "  Find string in CWD", ":Telescope live_grep<CR>"),
-    dashboard.button( "u", "  Update plugings", ":PackerSync<CR>"),
-    dashboard.button( "s", "  Settings" , ":e $MYVIMRC<CR>"),
-    dashboard.button( "q", "  Quit NVIM", ":conf qa<CR>"),
-}
+ -- Set menu
+ dashboard.section.buttons.val = {
+     dashboard.button( "er", "  Recent" , ":Telescope oldfiles<CR>"),
+     dashboard.button( "ep", "פּ  Projects" , ":Telescope projects<CR>"),
+     dashboard.button( "eh", "ﴤ  Home Explorer" , ":Telescope file_browser path=$HOME<CR>"),
+     dashboard.button( "ew", "ﱮ  CWD Explorer" , ":Telescope file_browser<CR>"),
+     dashboard.button( "nf", "  New file" , ":ene <BAR> startinsert <CR>"),
+     dashboard.button( "ff", "  Find file", ":Telescope find_files find_command=rg,--hidden,--files<CR>"),
+     dashboard.button( "fs", "  Find string in CWD", ":Telescope live_grep<CR>"),
+     dashboard.button( "up", "  Update plugings", ":PackerSync<CR>"),
+     dashboard.button( "se", "  Settings" , ":e $MYVIMRC<CR>"),
+     dashboard.button( "qa", "  Quit NVIM", ":conf qa<CR>"),
+ }
 
--- Send config to alpha
-alpha.setup(dashboard.opts)
+ -- Send config to alpha
+ alpha.setup(dashboard.opts)
 
--- Automatically open alpha when the last buffer is deleted and only one window left
--- Not working with tabs
-vim.cmd [[ au BufDelete * if empty(filter(tabpagebuflist(), '!buflisted(v:val)')) && winnr('$') == 1 | exec 'Alpha' | endif ]]
+ -- Automatically open alpha when the last buffer is deleted and only one window left
+ -- Not working with tabs
+ vim.cmd [[ au BufDelete * if empty(filter(tabpagebuflist(), '!buflisted(v:val)')) && winnr('$') == 1 | exec 'Alpha' | endif ]]
 
 ------------------------ ILLUMINATE -----------------
-  vim.api.nvim_command [[ hi def link LspReferenceText CursorLine ]]
-  vim.api.nvim_command [[ hi def link LspReferenceWrite CursorLine ]]
-  vim.api.nvim_command [[ hi def link LspReferenceRead CursorLine ]]
-  vim.api.nvim_set_keymap('n', '<M-n>', '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>', {noremap=true})
-  vim.api.nvim_set_keymap('n', '<M-p>', '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>', {noremap=true})
+ vim.api.nvim_command [[ hi def link LspReferenceText CursorLine ]]
+ vim.api.nvim_command [[ hi def link LspReferenceWrite CursorLine ]]
+ vim.api.nvim_command [[ hi def link LspReferenceRead CursorLine ]]
+ vim.api.nvim_set_keymap('n', '<M-n>', '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>', {noremap=true})
+ vim.api.nvim_set_keymap('n', '<M-p>', '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>', {noremap=true})
 
 ------------------------ INDENTATION, SPECIAL CHARS CONFIG -----------------
-vim.opt.list = true
-vim.opt.listchars={eol = '↴', tab = '▸ ', trail = '·'}
+ vim.opt.list = true
+ vim.opt.listchars={eol = '↴', tab = '▸ ', trail = '·'}
 
-require("indent_blankline").setup {
-  char = "|",
-  buftype_exclude = {"terminal"},
-  filetype_exclude = { "alpha" },
-  show_end_of_line = true,
-}
+ require("indent_blankline").setup {
+   char = "|",
+   buftype_exclude = {"terminal"},
+   filetype_exclude = { "alpha" },
+   show_end_of_line = true,
+ }
 ------------------------ GIT -------------------------
-require('gitsigns').setup{
-    keymaps = {
-    noremap = true,
-    ['n <leader>gah'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
-    ['v <leader>gah'] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-    ['n <leader>guh'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
-    ['n <leader>grh'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
-    ['v <leader>grh'] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-    ['n <leader>grf'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
-    ['n <leader>gil'] = '<cmd>lua require"gitsigns".blame_line()<CR>',
-    ['n <leader>gaf'] = '<cmd>lua require"gitsigns".stage_buffer()<CR>',
-  },
-}
-vim.api.nvim_set_keymap('n', '<leader>mt', '<plug>(MergetoolToggle)',{noremap=false})
-vim.api.nvim_set_keymap('n', '<C-h>', '<cmd>MergetoolDiffExchangeLeft<CR>',{noremap=true})
-vim.api.nvim_set_keymap('n', '<C-l>', '<cmd>MergetoolDiffExchangeRight<CR>',{noremap=true})
-vim.api.nvim_set_keymap('n', '<C-j>', '<cmd>MergetoolDiffExchangeDown<CR>',{noremap=true})
-vim.api.nvim_set_keymap('n', '<C-k>', '<cmd>MergetoolDiffExchangeUp<CR>',{noremap=true})
+ require('gitsigns').setup{
+     keymaps = {
+     noremap = true,
+     ['n <leader>gah'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
+     ['v <leader>gah'] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+     ['n <leader>guh'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
+     ['n <leader>grh'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+     ['v <leader>grh'] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+     ['n <leader>grf'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
+     ['n <leader>gil'] = '<cmd>lua require"gitsigns".blame_line()<CR>',
+     ['n <leader>gaf'] = '<cmd>lua require"gitsigns".stage_buffer()<CR>',
+   },
+ }
+ vim.api.nvim_set_keymap('n', '<leader>mt', '<plug>(MergetoolToggle)',{noremap=false})
+ vim.api.nvim_set_keymap('n', '<C-h>', '<cmd>MergetoolDiffExchangeLeft<CR>',{noremap=true})
+ vim.api.nvim_set_keymap('n', '<C-l>', '<cmd>MergetoolDiffExchangeRight<CR>',{noremap=true})
+ vim.api.nvim_set_keymap('n', '<C-j>', '<cmd>MergetoolDiffExchangeDown<CR>',{noremap=true})
+ vim.api.nvim_set_keymap('n', '<C-k>', '<cmd>MergetoolDiffExchangeUp<CR>',{noremap=true})
 
 ------------------------ LIGHTBULB -------------------------
-vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
+ vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
 
 ------------------------ MOTIONS: LIGHTSPEED -------------------------
-require('lightspeed')
+ require('lightspeed')
 
-vim.api.nvim_set_keymap('n', 'x', '<Plug>Lightspeed_x', { noremap=false, silent=true })
-vim.api.nvim_set_keymap('v', 'x', '<Plug>Lightspeed_x', { noremap=false, silent=true })
-vim.api.nvim_set_keymap('n', 'X', '<Plug>Lightspeed_X', { noremap=false, silent=true })
-vim.api.nvim_set_keymap('n', 'X', '<Plug>Lightspeed_X', { noremap=false, silent=true })
+ vim.api.nvim_set_keymap('n', 'x', '<Plug>Lightspeed_x', { noremap=false, silent=true })
+ vim.api.nvim_set_keymap('v', 'x', '<Plug>Lightspeed_x', { noremap=false, silent=true })
+ vim.api.nvim_set_keymap('n', 'X', '<Plug>Lightspeed_X', { noremap=false, silent=true })
+ vim.api.nvim_set_keymap('n', 'X', '<Plug>Lightspeed_X', { noremap=false, silent=true })
 
 ------------------------ LSP -------------------------
 -- Add additional capabilities supported by nvim-cmp
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lspconfig = require('lspconfig')
 
@@ -256,12 +255,8 @@ local default_on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
 
-  -- null-ls handles formatting instead native lsp
-  -- client.resolved_capabilities.document_formatting = false
-  -- client.resolved_capabilities.document_range_formating = false
-
   -- Illuminate highlighting
-  require 'illuminate'.on_attach(client) -- end
+ require 'illuminate'.on_attach(client) -- end
 end
 
 --null-ls
@@ -280,18 +275,21 @@ local null_ls_sources = {
     null_ls.builtins.code_actions.gitsigns,
 }
 
+local LspFormattingGroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
 null_ls.setup({
   sources = null_ls_sources,
   on_attach = function(client,bufnr)
-      default_on_attach(client,bufnr)
-      if client.resolved_capabilities.document_formatting then
-          vim.cmd([[
-          augroup LspFormatting
-              autocmd! * <buffer>
-              autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-          augroup END
-          ]])
-      end
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format({ bufnr = bufnr })
+        end,
+      })
+    end
   end,
 })
 
@@ -304,8 +302,8 @@ lsp_installer.on_server_ready(function(server)
       on_attach = function(client,bufnr)
         default_on_attach(client,bufnr)
         -- null-ls handles formatting instead native lsp
-        client.resolved_capabilities.document_formatting = false
-        client.resolved_capabilities.document_range_formating = false
+        -- client.resolved_capabilities.document_formatting = false
+        -- client.resolved_capabilities.document_range_formating = false
       end,
       capabilities = capabilities,
     }
@@ -354,37 +352,37 @@ vim.diagnostic.config({
 })
 
 ------------------------ PROJECTS -------------------------
-require("project_nvim").setup {
+ require("project_nvim").setup {
   -- your configuration comes here
   -- or leave it empty to use the default settings
   -- refer to the configuration section below
-}
+ }
 
  ------------------------ SEARCH ------------------------
-vim.opt.incsearch = true -- Jump to matching terms, but keep cursor until <CR>
-vim.opt.ignorecase = true -- Ignore case in searches
-vim.opt.smartcase = true -- Don't ignore case if using caps
+ vim.opt.incsearch = true -- Jump to matching terms, but keep cursor until <CR>
+ vim.opt.ignorecase = true -- Ignore case in searches
+ vim.opt.smartcase = true -- Don't ignore case if using caps
 
-local kopts = {noremap = true, silent = true}
-vim.api.nvim_set_keymap('n', 'n',
-    [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-    kopts)
-vim.api.nvim_set_keymap('n', 'N',
-    [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-    kopts)
-vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+ local kopts = {noremap = true, silent = true}
+ vim.api.nvim_set_keymap('n', 'n',
+     [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+     kopts)
+ vim.api.nvim_set_keymap('n', 'N',
+     [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+     kopts)
+ vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+ vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+ vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+ vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
 
-vim.api.nvim_set_keymap('n', '<Leader>nh', ':noh<CR>', kopts)
+ vim.api.nvim_set_keymap('n', '<Leader>nh', ':noh<CR>', kopts)
 
 ------------------------ SCROLLING -------------------------
-require("scrollbar").setup()
-require("scrollbar.handlers.search").setup() -- Add search marks in scroll bar
-require('neoscroll').setup({
-  easing_function='quadratic'
-})
+ require("scrollbar").setup()
+ require("scrollbar.handlers.search").setup() -- Add search marks in scroll bar
+ require('neoscroll').setup({
+   easing_function='quadratic'
+ })
 
 -- Shade has a bug causing floating windows to be totally transparent
 ------------------------ SHADE - DIM INACTIVE WINDOWS -------------------------
@@ -393,192 +391,192 @@ require('neoscroll').setup({
 --})
 
 ------------------------ SPELL CHECKER -------------------------
-vim.opt.spelllang = {'en','es','cjk'}
-vim.opt.spellsuggest = {'best',9}
+ vim.opt.spelllang = {'en','es','cjk'}
+ vim.opt.spellsuggest = {'best',9}
 
 ------------------------ STATUS LINE -------------------------
-require('lualine').setup{
-  options = {
-    icons_enabled = true,
-    component_separators = { left = '', right = ''},
-    disabled_filetypes = {}
-  },
-  sections = {
-    lualine_a = {{'mode', separator = {left = '', right = ''}}},
-    lualine_b = {{getCwdName, 'branch','diff', separator = {left = '', right = ''}}},
-    lualine_c = {'filename', 'lsp_progress'},
-    lualine_x = {
-      {
-        'diagnostics',
-        -- table of diagnostic sources, available sources:
-        -- nvim_lsp, coc, ale, vim_lsp
-        sources = {'nvim_diagnostic'},
-        -- displays diagnostics from defined severity
-        sections = {'error', 'warn', 'info', 'hint'},
-      },
-    },
-    lualine_y = {{'encoding', 'fileformat', 'filetype', separator = {left = '', right = ''}}},
-    lualine_z = {{'location', separator = {left = '', right = ''}}}
-  },
-  inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = {'filename'},
-    lualine_x = {'location'},
-    lualine_y = {},
-    lualine_z = {}
-  },
-  tabline = {},
-  extensions = {}
-}
+ require('lualine').setup{
+   options = {
+     icons_enabled = true,
+     component_separators = { left = '', right = ''},
+     disabled_filetypes = {}
+   },
+   sections = {
+     lualine_a = {{'mode', separator = {left = '', right = ''}}},
+     lualine_b = {{getCwdName, 'branch','diff', separator = {left = '', right = ''}}},
+     lualine_c = {'filename', 'lsp_progress'},
+     lualine_x = {
+       {
+         'diagnostics',
+         -- table of diagnostic sources, available sources:
+         -- nvim_lsp, coc, ale, vim_lsp
+         sources = {'nvim_diagnostic'},
+         -- displays diagnostics from defined severity
+         sections = {'error', 'warn', 'info', 'hint'},
+       },
+     },
+     lualine_y = {{'encoding', 'fileformat', 'filetype', separator = {left = '', right = ''}}},
+     lualine_z = {{'location', separator = {left = '', right = ''}}}
+   },
+   inactive_sections = {
+     lualine_a = {},
+     lualine_b = {},
+     lualine_c = {'filename'},
+     lualine_x = {'location'},
+     lualine_y = {},
+     lualine_z = {}
+   },
+   tabline = {},
+   extensions = {}
+ }
 
 ------------------------ SURROUND NVIM -------------------------
-require('mini.surround').setup({
-  mappings = {
-    add = 'ys', -- Add surrounding
-    delete = 'ds', -- Delete surrounding
-    find = 'ysf', -- Find surrounding (to the right)
-    find_left = 'ysF', -- Find surrounding (to the left)
-    highlight = 'ysh', -- Highlight surrounding
-    replace = 'cs', -- Replace surrounding
-    update_n_lines = 'ysn', -- Update `n_lines`
-  }
-})
+ require('mini.surround').setup({
+   mappings = {
+     add = 'ys', -- Add surrounding
+     delete = 'ds', -- Delete surrounding
+     find = 'ysf', -- Find surrounding (to the right)
+     find_left = 'ysF', -- Find surrounding (to the left)
+     highlight = 'ysh', -- Highlight surrounding
+     replace = 'cs', -- Replace surrounding
+     update_n_lines = 'ysn', -- Update `n_lines`
+   }
+ })
 
 ------------------------ TABOUT -------------------------
-require("tabout").setup({
-  tabkey = '<Tab>', -- key to trigger tabout, set to an empty string to disable
-  backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
-  act_as_tab = true, -- shift content if tab out is not possible
-  act_as_shift_tab = false, -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
-  enable_backwards = true, -- well ...
-  completion = true, -- if the tabkey is used in a completion pum
-  tabouts = {
-    {open = "'", close = "'"},
-    {open = '"', close = '"'},
-    {open = '`', close = '`'},
-    {open = '(', close = ')'},
-    {open = '[', close = ']'},
-    {open = '{', close = '}'}
-  },
-  ignore_beginning = true,
-})
+ require("tabout").setup({
+   tabkey = '<Tab>', -- key to trigger tabout, set to an empty string to disable
+   backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
+   act_as_tab = true, -- shift content if tab out is not possible
+   act_as_shift_tab = false, -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
+   enable_backwards = true, -- well ...
+   completion = true, -- if the tabkey is used in a completion pum
+   tabouts = {
+     {open = "'", close = "'"},
+     {open = '"', close = '"'},
+     {open = '`', close = '`'},
+     {open = '(', close = ')'},
+     {open = '[', close = ']'},
+     {open = '{', close = '}'}
+   },
+   ignore_beginning = true,
+ })
 
 ------------------------ TELESCOPE FUZZY FINDER -------------------------
-local actions = require('telescope.actions')
-require('telescope').setup{
-  defaults = {
-    theme = "dropdown",
-    winblend = 8,
-    dynamic_preview_title = true,
-    path_display = {"truncate"},
-    -- layout_strategy = 'flex',
-    sorting_strategy = 'ascending',
-    layout_config = {
-      prompt_position = 'top',
-      scroll_speed = 1
-    },
-    mappings = {
-      i = {
-        ["<M-j>"] = actions.move_selection_next,
-        ["<M-k>"] = actions.move_selection_previous,
-        ["<C-h>"] = actions.select_horizontal,
-        ["<C-v>"] = actions.select_vertical,
-        ["<C-x>"] = actions.close,
-        ["<C-t>"] = false, -- Removes default option to open in other TAB
-      },
-      n = {
-        ["<C-h>"] = actions.select_horizontal,
-        ["<C-v>"] = actions.select_vertical,
-        ["<C-x>"] = actions.close,
-        ["<C-t>"] = false, -- Removes default option to open in other TAB
-      }
-    },
-  },
-  extensions = {
-    file_browser = {
-      theme = "dropdown",
-      -- disables netrw and use telescope-file-browser in its place
-      hijack_netrw = true,
-      mappings = {
-        ["i"] = {
-          -- your custom insert mode mappings
-        },
-        ["n"] = {
-          -- your custom normal mode mappings
-        },
-      },
-    },
-  },
-  pickers = {
-    command_history = {
-      theme = "dropdown"
-    },
-    find_files = {
-      theme = "dropdown",
-      layout_strategy = 'flex',
-      layout_config = {
-        width = { 0.75, max = 300, min = 80 },
-        height = { 0.75, max = 100, min = 20 }
-      }
-    },
-    buffers = {
-      theme = "dropdown",
-      layout_strategy = 'flex',
-      layout_config = {
-        width = { 0.75, max = 300, min = 80 },
-        height = { 0.75, max = 100, min = 20 }
-      }
-    },
-    live_grep = {
-      theme = "dropdown",
-      layout_strategy = 'flex',
-      layout_config = {
-        width = { 0.75, max = 300, min = 80 },
-        height = { 0.75, max = 100, min = 20 }
-      }
-    },
-    grep_string = {
-      theme = "dropdown",
-      layout_strategy = 'flex',
-      layout_config = {
-        width = { 0.75, max = 300, min = 80 },
-        height = { 0.75, max = 100, min = 20 }
-      }
-    },
-    git_commits = {
-      theme = "dropdown",
-      layout_strategy = 'flex',
-      layout_config = {
-        width = { 0.75, max = 300, min = 80 },
-        height = { 0.75, max = 100, min = 20 }
-      }
-    },
-    git_status = {
-      theme = "dropdown",
-      layout_strategy = 'flex',
-      layout_config = {
-        width = { 0.75, max = 300, min = 80 },
-        height = { 0.75, max = 100, min = 20 }
-      }
-    },
-    git_bcommits = {
-      theme = "dropdown",
-      layout_strategy = 'flex',
-      layout_config = {
-        width = { 0.75, max = 300, min = 80 },
-        height = { 0.75, max = 100, min = 20 }
-      }
-    }
-  }
-}
+ local actions = require('telescope.actions')
+ require('telescope').setup{
+   defaults = {
+     theme = "dropdown",
+     winblend = 8,
+     dynamic_preview_title = true,
+     path_display = {"truncate"},
+     -- layout_strategy = 'flex',
+     sorting_strategy = 'ascending',
+     layout_config = {
+       prompt_position = 'top',
+       scroll_speed = 1
+     },
+     mappings = {
+       i = {
+         ["<M-j>"] = actions.move_selection_next,
+         ["<M-k>"] = actions.move_selection_previous,
+         ["<C-h>"] = actions.select_horizontal,
+         ["<C-v>"] = actions.select_vertical,
+         ["<C-x>"] = actions.close,
+         ["<C-t>"] = false, -- Removes default option to open in other TAB
+       },
+       n = {
+         ["<C-h>"] = actions.select_horizontal,
+         ["<C-v>"] = actions.select_vertical,
+         ["<C-x>"] = actions.close,
+         ["<C-t>"] = false, -- Removes default option to open in other TAB
+       }
+     },
+   },
+   extensions = {
+     file_browser = {
+       theme = "dropdown",
+       -- disables netrw and use telescope-file-browser in its place
+       hijack_netrw = true,
+       mappings = {
+         ["i"] = {
+           -- your custom insert mode mappings
+         },
+         ["n"] = {
+           -- your custom normal mode mappings
+         },
+       },
+     },
+   },
+   pickers = {
+     command_history = {
+       theme = "dropdown"
+     },
+     find_files = {
+       theme = "dropdown",
+       layout_strategy = 'flex',
+       layout_config = {
+         width = { 0.75, max = 300, min = 80 },
+         height = { 0.75, max = 100, min = 20 }
+       }
+     },
+     buffers = {
+       theme = "dropdown",
+       layout_strategy = 'flex',
+       layout_config = {
+         width = { 0.75, max = 300, min = 80 },
+         height = { 0.75, max = 100, min = 20 }
+       }
+     },
+     live_grep = {
+       theme = "dropdown",
+       layout_strategy = 'flex',
+       layout_config = {
+         width = { 0.75, max = 300, min = 80 },
+         height = { 0.75, max = 100, min = 20 }
+       }
+     },
+     grep_string = {
+       theme = "dropdown",
+       layout_strategy = 'flex',
+       layout_config = {
+         width = { 0.75, max = 300, min = 80 },
+         height = { 0.75, max = 100, min = 20 }
+       }
+     },
+     git_commits = {
+       theme = "dropdown",
+       layout_strategy = 'flex',
+       layout_config = {
+         width = { 0.75, max = 300, min = 80 },
+         height = { 0.75, max = 100, min = 20 }
+       }
+     },
+     git_status = {
+       theme = "dropdown",
+       layout_strategy = 'flex',
+       layout_config = {
+         width = { 0.75, max = 300, min = 80 },
+         height = { 0.75, max = 100, min = 20 }
+       }
+     },
+     git_bcommits = {
+       theme = "dropdown",
+       layout_strategy = 'flex',
+       layout_config = {
+         width = { 0.75, max = 300, min = 80 },
+         height = { 0.75, max = 100, min = 20 }
+       }
+     }
+   }
+ }
 
-require("telescope").load_extension "file_browser"
-require('telescope').load_extension('projects') -- Requires project_nvim
-vim.api.nvim_set_keymap( "n", "<leader>fp", ":Telescope projects<CR>", { noremap = true })
-vim.api.nvim_set_keymap( "n", "<leader>ew", ":Telescope file_browser<CR>", { noremap = true })
-vim.api.nvim_set_keymap( "n", "<leader>eh", ":Telescope file_browser path=$HOME<CR>", { noremap = true })
-vim.api.nvim_set_keymap( "n", "-", ":Telescope file_browser path=%:p:h<CR>", { noremap = true })
+ require("telescope").load_extension "file_browser"
+ require('telescope').load_extension('projects') -- Requires project_nvim
+ vim.api.nvim_set_keymap( "n", "<leader>fp", ":Telescope projects<CR>", { noremap = true })
+ vim.api.nvim_set_keymap( "n", "<leader>ew", ":Telescope file_browser<CR>", { noremap = true })
+ vim.api.nvim_set_keymap( "n", "<leader>eh", ":Telescope file_browser path=$HOME<CR>", { noremap = true })
+ vim.api.nvim_set_keymap( "n", "-", ":Telescope file_browser path=%:p:h<CR>", { noremap = true })
 
 ------------------------ TREESITTER -------------------------
 require'nvim-treesitter.configs'.setup {
@@ -605,19 +603,12 @@ require'nvim-treesitter.configs'.setup {
 
 ------------------------ COLOR HIGHLIGHTER -------------------------
 -- Colorizer needs to be setup after the other plugins
-require('colorizer').setup(nil,{
-    RRGGBBAA = true,
-    css = true,
-    css_fn = true,
-})
+ require('colorizer').setup(nil,{
+     RRGGBBAA = true,
+     css = true,
+     css_fn = true,
+ })
 EOF
-"
-"
-"
-"
-"
-"
-"
 "
 " EOF
 
