@@ -42,7 +42,7 @@ vim.o.splitright = true
 
 -- VISUAL STYLES
 vim.opt.termguicolors = true -- Set true colors
-vim.opt.guifont = 'FiraCode Nerd Font Mono:h16'
+vim.opt.guifont = 'FiraCode Nerd Font Mono:h24'
 vim.opt.syntax = 'enable' -- Set syntax highlight
 
 -- RELOAD BUFFERS WHEN CHANGING ON DISK
