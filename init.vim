@@ -2,7 +2,7 @@
 " Font: FiraCode Nerd Font Mono: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip
 "-Git
 "-fixjson
-"-prettierd
+"-prettier
 "-stylua
 "-stylelint
 "-selene-linter
@@ -265,7 +265,7 @@ local null_ls = require("null-ls")
 -- register any number of sources simultaneously
 local null_ls_sources = {
     null_ls.builtins.formatting.fixjson,
-    null_ls.builtins.formatting.prettierd,
+    null_ls.builtins.formatting.prettier,
     null_ls.builtins.formatting.stylua,
     null_ls.builtins.formatting.trim_newlines,
     null_ls.builtins.formatting.trim_whitespace,
@@ -275,15 +275,17 @@ local null_ls_sources = {
     null_ls.builtins.code_actions.gitsigns,
 }
 
-local LspFormattingGroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
+local LspFormatAugroup = vim.api.nvim_create_augroup("LspFormatting", {})
 null_ls.setup({
   sources = null_ls_sources,
   on_attach = function(client,bufnr)
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+    if client.supports_method("textDocument/rangeFormatting") then
+      local lsp_format_modifications = require"lsp-format-modifications"
+      lsp_format_modifications.attach(client, bufnr, { format_on_save = true })
+    elseif client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = LspFormatAugroup , buffer = bufnr })
       vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup,
+        group = LspFormatAugroup,
         buffer = bufnr,
         callback = function()
           vim.lsp.buf.format({ bufnr = bufnr })

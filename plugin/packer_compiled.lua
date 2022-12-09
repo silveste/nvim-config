@@ -140,6 +140,11 @@ _G.packer_plugins = {
     path = "/Users/tfernandez/.local/share/nvim/site/pack/packer/start/lightspeed.nvim",
     url = "https://github.com/ggandor/lightspeed.nvim"
   },
+  ["lsp-format-modifications.nvim"] = {
+    loaded = true,
+    path = "/Users/tfernandez/.local/share/nvim/site/pack/packer/start/lsp-format-modifications.nvim",
+    url = "https://github.com/joechrisellis/lsp-format-modifications.nvim"
+  },
   ["lualine-lsp-progress"] = {
     loaded = true,
     path = "/Users/tfernandez/.local/share/nvim/site/pack/packer/start/lualine-lsp-progress",
