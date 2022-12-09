@@ -1,7 +1,6 @@
 " DEPENDENCIES (Installed using distribution package manager)
 " Font: FiraCode Nerd Font Mono: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip
 "-Git
-"-fixjson
 "-prettier
 "-stylua
 "-stylelint
@@ -264,7 +263,6 @@ local null_ls = require("null-ls")
 
 -- register any number of sources simultaneously
 local null_ls_sources = {
-    null_ls.builtins.formatting.fixjson,
     null_ls.builtins.formatting.prettier,
     null_ls.builtins.formatting.stylua,
     null_ls.builtins.formatting.trim_newlines,
