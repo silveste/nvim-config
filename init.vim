@@ -42,7 +42,7 @@ vim.o.splitright = true
 
 -- VISUAL STYLES
 vim.opt.termguicolors = true -- Set true colors
-vim.opt.guifont = 'FiraCode Nerd Font Mono:h24'
+vim.opt.guifont = 'FiraCode Nerd Font Mono:h20'
 vim.opt.syntax = 'enable' -- Set syntax highlight
 
 -- RELOAD BUFFERS WHEN CHANGING ON DISK
@@ -466,7 +466,6 @@ vim.diagnostic.config({
  local actions = require('telescope.actions')
  require('telescope').setup{
    defaults = {
-     theme = "dropdown",
      winblend = 8,
      dynamic_preview_title = true,
      path_display = {"truncate"},
@@ -474,7 +473,21 @@ vim.diagnostic.config({
      sorting_strategy = 'ascending',
      layout_config = {
        prompt_position = 'top',
-       scroll_speed = 1
+       scroll_speed = 1,
+       width = 0.9,
+       height = 0.9,
+       horizontal = {
+         preview_cutoff = 120,
+         preview_width = 0.6,
+       },
+       vertical = {
+         mirror = true,
+         preview_height = 0.6,
+       },
+       flex = {
+         flip_columns = 120,
+         flip_lines = 30,
+       }
      },
      mappings = {
        i = {
@@ -495,7 +508,6 @@ vim.diagnostic.config({
    },
    extensions = {
      file_browser = {
-       theme = "dropdown",
        -- disables netrw and use telescope-file-browser in its place
        hijack_netrw = true,
        mappings = {
@@ -508,65 +520,31 @@ vim.diagnostic.config({
        },
      },
    },
+   -- due to a bug with cheatsheet.nvim layout_strategy needs to be declared at a picker level
    pickers = {
      command_history = {
-       theme = "dropdown"
+       layout_strategy = 'flex',
      },
      find_files = {
-       theme = "dropdown",
        layout_strategy = 'flex',
-       layout_config = {
-         width = { 0.75, max = 300, min = 80 },
-         height = { 0.75, max = 100, min = 20 }
-       }
      },
      buffers = {
-       theme = "dropdown",
        layout_strategy = 'flex',
-       layout_config = {
-         width = { 0.75, max = 300, min = 80 },
-         height = { 0.75, max = 100, min = 20 }
-       }
      },
      live_grep = {
-       theme = "dropdown",
        layout_strategy = 'flex',
-       layout_config = {
-         width = { 0.75, max = 300, min = 80 },
-         height = { 0.75, max = 100, min = 20 }
-       }
      },
      grep_string = {
-       theme = "dropdown",
        layout_strategy = 'flex',
-       layout_config = {
-         width = { 0.75, max = 300, min = 80 },
-         height = { 0.75, max = 100, min = 20 }
-       }
      },
      git_commits = {
-       theme = "dropdown",
        layout_strategy = 'flex',
-       layout_config = {
-         width = { 0.75, max = 300, min = 80 },
-         height = { 0.75, max = 100, min = 20 }
-       }
      },
      git_status = {
-       theme = "dropdown",
        layout_strategy = 'flex',
-       layout_config = {
-         width = { 0.75, max = 300, min = 80 },
-         height = { 0.75, max = 100, min = 20 }
-       }
      },
      git_bcommits = {
-       theme = "dropdown",
        layout_strategy = 'flex',
-       layout_config = {
-         width = { 0.75, max = 300, min = 80 },
-         height = { 0.75, max = 100, min = 20 }
-       }
      }
    }
  }
