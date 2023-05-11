@@ -19,7 +19,9 @@ vim.keymap.set("c", "<M-k>", "<Up>", { desc = "Move the cursor up" })
 vim.keymap.set("c", "<M-h>", "<Left>", { desc = "Move the cursor left" })
 vim.keymap.set("c", "<M-l>", "<Right>", { desc = "Move the cursor right" })
 
--- Saving buffers
+-- Buffers
 local save_all_buffers = require("utils.save_all_buffers")
 vim.keymap.set({ "n" }, "<C-s><C-s>", save_all_buffers, { silent = true, desc = "Save all buffers" })
 vim.keymap.set({ "i" }, "<C-s><C-s>", save_all_buffers, { silent = true, desc = "Save all buffers" })
+
+vim.keymap.set({ "n" }, "<leader>d", ":bdelete<CR>", { silent = true, desc = "Delete window and buffer" })
