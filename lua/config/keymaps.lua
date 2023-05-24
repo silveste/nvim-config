@@ -25,3 +25,7 @@ vim.keymap.set({ "n" }, "<C-s><C-s>", save_all_buffers, { silent = true, desc = 
 vim.keymap.set({ "i" }, "<C-s><C-s>", save_all_buffers, { silent = true, desc = "Save all buffers" })
 
 vim.keymap.set({ "n" }, "<leader>d", ":bdelete<CR>", { silent = true, desc = "Delete window and buffer" })
+
+-- utils
+local yank_file_path = require("utils.yank_file_path")
+vim.keymap.set({ "n" }, "yp", yank_file_path, { silent = true, desc = "Path of the file" })
