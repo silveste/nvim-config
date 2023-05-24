@@ -2,7 +2,9 @@
 set mouse=a
 
 " Set Editor Font
-if exists(':GuiFont')
+if has('macunix') && exists(':GuiFont')
+    GuiFont VictorMono\ Nerd\ Font:h20:w57
+elseif exists(':GuiFont')
     " Use GuiFont! to ignore font errors
     GuiFont VictorMono\ Nerd\ Font:h12:b
 endif
