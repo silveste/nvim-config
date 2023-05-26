@@ -6,9 +6,7 @@
 -- MODES
 -- Switch to normal
 vim.keymap.set("i", "jj", "<ESC>", { silent = true, desc = "Switch to normal mode" })
-vim.keymap.set("i", "JJ", "<ESC>", { silent = true, desc = "Switch to normal mode" })
 vim.keymap.set("c", "jj", "<C-c>", { desc = "Switch to normal mode" })
-vim.keymap.set("c", "JJ", "<C-c>", { desc = "Switch to normal mode" })
 
 -- NAVIGATION
 -- Moving cursor on insert and command modes
@@ -33,3 +31,10 @@ local yank_file_path = require("utils.yank_file_path")
 vim.keymap.set({ "n" }, "yp", yank_file_path, { silent = true, desc = "Path of the file" })
 -- Send replaced text to blackhole register (disables cut function)
 vim.keymap.set({ "n", "v" }, "c", '"_c', { silent = true, desc = "Change text" })
+-- Paste text with C-v
+vim.keymap.set({ "n", "v" }, "<C-v>", "p", { silent = true, desc = "Paste" })
+vim.keymap.set({ "i" }, "<C-v>", "<Esc>pi", { silent = true, desc = "Paste" })
+vim.keymap.set({ "c" }, "<C-v>", "<C-r>+", { desc = "Paste" })
+vim.keymap.set({ "n", "v" }, "<D-v>", "p", { silent = true, desc = "Paste" })
+vim.keymap.set({ "i" }, "<D-v>", "<Esc>pi", { silent = true, desc = "Paste" })
+vim.keymap.set({ "c" }, "<D-v>", "<C-r>+", { desc = "Paste" })
