@@ -11,7 +11,7 @@ return function()
   local modified_buffers = {}
   local unsaved_buffers = {}
   local saved_buffers = {}
-  local need_message = true
+  local nothing_done_msg = true
 
   -- get modified buffers
   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
@@ -36,15 +36,15 @@ return function()
   -- print the result
   if next(saved_buffers) ~= nil then
     notify(saved_buffers, vim.log.levels.INFO, { title = "Buffers saved" })
-    need_message = false
+    nothing_done_msg = false
   end
 
   if next(unsaved_buffers) ~= nil then
     notify(unsaved_buffers, vim.log.levels.ERROR, { title = "Error saving buffers" })
-    need_message = false
+    nothing_done_msg = false
   end
 
-  if need_message then
+  if nothing_done_msg then
     notify("No pending buffer changes", vim.log.levels.INFO, { title = "Saving buffers" })
   end
 end
