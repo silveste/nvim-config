@@ -13,9 +13,28 @@ return {
     -- change some options
     opts = {
       defaults = {
-        layout_strategy = "horizontal",
-        layout_config = { prompt_position = "top" },
+        layout_strategy = "flex",
         sorting_strategy = "ascending",
+        dynamic_preview_title = true,
+        path_display = { "truncate" },
+        layout_config = {
+          prompt_position = "top",
+          scroll_speed = 1,
+          width = 0.9,
+          height = 0.9,
+          horizontal = {
+            preview_cutoff = 120,
+            preview_width = 0.6,
+          },
+          vertical = {
+            mirror = true,
+            preview_height = 0.6,
+          },
+          flex = {
+            flip_columns = 120,
+            flip_lines = 30,
+          },
+        },
         winblend = 0,
         mappings = {
           i = {
