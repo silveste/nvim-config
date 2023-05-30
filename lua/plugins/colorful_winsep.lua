@@ -17,8 +17,8 @@ return {
       create_event = function()
         local colorful_winsep = require("colorful-winsep")
         local win_n = require("colorful-winsep.utils").calculate_number_windows()
-        local has_filetype = require("utils.has_filetype")
-        if win_n == 2 and has_filetype("neo-tree") then
+        local has_filetypes = require("utils.has_filetypes")
+        if win_n == 2 and has_filetypes({ "neo-tree" }) then
           colorful_winsep.NvimSeparatorDel()
         end
       end,
