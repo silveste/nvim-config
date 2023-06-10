@@ -20,14 +20,14 @@ vim.keymap.set("c", "<M-h>", "<Left>", { desc = "Move the cursor left" })
 vim.keymap.set("c", "<M-l>", "<Right>", { desc = "Move the cursor right" })
 
 -- BUFFERS
-local save_all_buffers = require("utils.save_all_buffers")
+local save_all_buffers = require("features.save_all_buffers")
 vim.keymap.set({ "n" }, "<C-s><C-s>", save_all_buffers, { silent = true, desc = "Save all buffers" })
 vim.keymap.set({ "i" }, "<C-s><C-s>", save_all_buffers, { silent = true, desc = "Save all buffers" })
 
 vim.keymap.set({ "n" }, "<leader>d", ":bdelete<CR>", { silent = true, desc = "Delete window and buffer" })
 
 -- UTILS
-local yank_file_path = require("utils.yank_file_path")
+local yank_file_path = require("features.yank_file_path")
 vim.keymap.set({ "n" }, "yp", yank_file_path, { silent = true, desc = "Path of the file" })
 -- Send replaced text to blackhole register (disables cut function)
 vim.keymap.set({ "n", "v" }, "c", '"_c', { silent = true, desc = "Change text" })
