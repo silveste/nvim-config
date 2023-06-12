@@ -24,6 +24,13 @@ local save_all_buffers = require("features.save_all_buffers")
 vim.keymap.set({ "n" }, "<C-s><C-s>", save_all_buffers, { silent = true, desc = "Save all buffers" })
 vim.keymap.set({ "i" }, "<C-s><C-s>", save_all_buffers, { silent = true, desc = "Save all buffers" })
 
+local split = require("features.window_handlers").split
+vim.keymap.set("n", "<leader>-", function()
+  split("s")
+end, { desc = "Split window and move buffer below" })
+vim.keymap.set("n", "<leader>|", function()
+  split("v")
+end, { desc = "Split window and move buffer right" })
 vim.keymap.set({ "n" }, "<leader>d", ":bdelete<CR>", { silent = true, desc = "Delete window and buffer" })
 
 -- UTILS
