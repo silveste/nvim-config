@@ -24,14 +24,19 @@ local save_all_buffers = require("features.save_all_buffers")
 vim.keymap.set({ "n" }, "<C-s><C-s>", save_all_buffers, { silent = true, desc = "Save all buffers" })
 vim.keymap.set({ "i" }, "<C-s><C-s>", save_all_buffers, { silent = true, desc = "Save all buffers" })
 
-local split = require("features.window_handlers").split
+local window_handlers = require("features.window_handlers")
 vim.keymap.set("n", "<leader>-", function()
-  split("s")
+  window_handlers.split("s")
 end, { desc = "Split window and move buffer below" })
 vim.keymap.set("n", "<leader>|", function()
-  split("v")
+  window_handlers.split("v")
 end, { desc = "Split window and move buffer right" })
-vim.keymap.set({ "n" }, "<leader>d", ":bdelete<CR>", { silent = true, desc = "Delete window and buffer" })
+vim.keymap.set(
+  { "n" },
+  "<leader>d",
+  window_handlers.del_buf_auto_close_win,
+  { silent = true, desc = "Delete buffer and autoclose window" }
+)
 
 -- UTILS
 local yank_file_path = require("features.yank_file_path")
