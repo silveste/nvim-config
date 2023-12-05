@@ -11,6 +11,9 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     -- change some options
+    keys = {
+      { "<leader><space>", false },
+    },
     opts = {
       defaults = {
         layout_strategy = "flex",

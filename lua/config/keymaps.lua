@@ -5,8 +5,16 @@
 
 -- MODES
 -- Switch to normal
-vim.keymap.set("i", "jj", "<ESC>", { silent = true, desc = "Switch to normal mode" })
-vim.keymap.set("c", "jj", "<C-c>", { desc = "Switch to normal mode" })
+vim.keymap.set("i", "jj", "<ESC>", { silent = true, desc = "which_key_ignore" })
+vim.keymap.set("c", "jj", "<C-c>", { desc = "which_key_ignore" })
+vim.keymap.set("i", "JJ", "<ESC>", { silent = true, desc = "which_key_ignore" })
+vim.keymap.set("c", "JJ", "<C-c>", { desc = "which_key_ignore" })
+-- Switch to command
+
+vim.keymap.set("i", "<leader><leader>", "<ESC>:", { desc = "which_key_ignore" })
+vim.keymap.set("n", "<leader><leader>", ":", { desc = "Command mode" })
+vim.keymap.set("i", "<leader>?", "<ESC>:help ", { desc = "which_key_ignore" })
+vim.keymap.set("n", "<leader>?", ":help ", { desc = "Get help" })
 
 -- NAVIGATION
 -- Moving cursor on insert and command modes
