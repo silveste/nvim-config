@@ -1,4 +1,4 @@
-local notify = require("notify").notify
+local notify = require("noice").notify
 
 return function()
   local bufname = vim.api.nvim_buf_get_name(0)

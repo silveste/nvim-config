@@ -1,9 +1,7 @@
-local notify = require("notify").notify
+local notify = require("noice").notify
 local find_in_table = require("utils.tables.find")
 local table_length = require("utils.tables.length")
 local deep_copy = require("utils.tables.deep_copy")
-
-local window_handlers = {}
 
 local skip_buffers = { "neo-tree", "noice", "alpha" }
 local win_buf_stack = {}

@@ -2,9 +2,12 @@ return {
   "folke/which-key.nvim",
   opts = {
     plugins = { spelling = true },
-    defaults = {
-      mode = { "n" },
-      ["<leader>n"] = { name = "+nx build system" },
+    spec = {
+      {
+        mode = { "n" },
+        { "<leader>n", group = "nx build system" },
+        { "yp", prefix = "y", desc = "Path of the file" },
+      },
     },
   },
 }

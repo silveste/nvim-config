@@ -1,10 +1,15 @@
-local notify = require("notify").notify
+local notify = require("noice").notify
 
 local function is_buf_modified(bufnr)
-  if vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_buf_get_option(bufnr, "modified") then
+  if vim.api.nvim_buf_is_valid(bufnr) and vim.bo[bufnr].modified then
     return true
   end
   return false
+end
+
+local function concat_with_prefix(list)
+  local message_line_prefix = "• "
+  return message_line_prefix .. table.concat(list, "\n" .. message_line_prefix)
 end
 
 return function()
@@ -16,7 +21,7 @@ return function()
   -- get modified buffers
   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
     if is_buf_modified(bufnr) then
-      local bufname = vim.api.nvim_buf_get_name(bufnr)
+      local bufname = vim.api.nvim_buf_get_name(bufnr):match("([^/\\]+)$")
       table.insert(modified_buffers, { name = bufname, id = bufnr })
     end
   end
@@ -35,12 +40,12 @@ return function()
 
   -- print the result
   if next(saved_buffers) ~= nil then
-    notify(saved_buffers, vim.log.levels.INFO, { title = "Buffers saved" })
+    notify(concat_with_prefix(saved_buffers), vim.log.levels.INFO, { title = "Buffers saved" })
     nothing_done_msg = false
   end
 
   if next(unsaved_buffers) ~= nil then
-    notify(unsaved_buffers, vim.log.levels.ERROR, { title = "Error saving buffers" })
+    notify(concat_with_prefix(unsaved_buffers), vim.log.levels.INFO, { title = "Error saving buffers" })
     nothing_done_msg = false
   end
 
