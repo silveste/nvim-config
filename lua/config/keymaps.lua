@@ -6,8 +6,10 @@
 -- MODES
 -- Switch to normal
 vim.keymap.set("i", "jj", "<ESC>", { silent = true, desc = "which_key_ignore" })
+vim.keymap.set("v", "jj", "<ESC>", { silent = true, desc = "which_key_ignore" })
 vim.keymap.set("c", "jj", "<C-c>", { desc = "which_key_ignore" })
 vim.keymap.set("i", "JJ", "<ESC>", { silent = true, desc = "which_key_ignore" })
+vim.keymap.set("v", "JJ", "<ESC>", { silent = true, desc = "which_key_ignore" })
 vim.keymap.set("c", "JJ", "<C-c>", { desc = "which_key_ignore" })
 -- Switch to command
 
@@ -48,7 +50,7 @@ vim.keymap.set(
 
 -- UTILS
 local yank_file_path = require("features.yank_file_path")
-vim.keymap.set({ "n" }, "yp", yank_file_path, { silent = true, desc = "Path of the file" })
+vim.keymap.set({ "n" }, "yp", yank_file_path, { silent = true, desc = "+Path of the file" })
 -- Send replaced text to blackhole register (disables cut function)
 vim.keymap.set({ "n", "v" }, "c", '"_c', { silent = true, desc = "Change text" })
 -- Paste text with C-v
