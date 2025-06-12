@@ -5,18 +5,16 @@
 
 -- MODES
 -- Switch to normal
-vim.keymap.set("i", "jj", "<ESC>", { silent = true, desc = "which_key_ignore" })
-vim.keymap.set("v", "jj", "<ESC>", { silent = true, desc = "which_key_ignore" })
-vim.keymap.set("c", "jj", "<C-c>", { desc = "which_key_ignore" })
-vim.keymap.set("i", "JJ", "<ESC>", { silent = true, desc = "which_key_ignore" })
-vim.keymap.set("v", "JJ", "<ESC>", { silent = true, desc = "which_key_ignore" })
-vim.keymap.set("c", "JJ", "<C-c>", { desc = "which_key_ignore" })
--- Switch to command
+vim.keymap.set("i", "jk", "<ESC>", { silent = true, desc = "which_key_ignore" })
+vim.keymap.set("v", "jk", "<ESC>", { silent = true, desc = "which_key_ignore" })
+vim.keymap.set("c", "jk", "<C-c>", { desc = "which_key_ignore" })
+vim.keymap.set("i", "JK", "<ESC>", { silent = true, desc = "which_key_ignore" })
+vim.keymap.set("v", "JK", "<ESC>", { silent = true, desc = "which_key_ignore" })
+vim.keymap.set("c", "JK", "<C-c>", { desc = "which_key_ignore" })
 
-vim.keymap.set("i", "<leader><leader>", "<ESC>:", { desc = "which_key_ignore" })
-vim.keymap.set("n", "<leader><leader>", ":", { desc = "Command mode" })
-vim.keymap.set("i", "<leader>?", "<ESC>:help ", { desc = "which_key_ignore" })
-vim.keymap.set("n", "<leader>?", ":help ", { desc = "Get help" })
+-- Switch to command
+vim.keymap.set("i", "kj", "<ESC>:", { desc = "which_key_ignore" })
+vim.keymap.set("n", "kj", ":", { desc = "Command mode" })
 
 -- NAVIGATION
 -- Moving cursor on insert and command modes
