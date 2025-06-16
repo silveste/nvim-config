@@ -1,10 +1,12 @@
+-- This module handles buffer management within windows, treating each window as a stack of buffers.
+-- Buffers are linked to their respective windows, and windows close when their buffer stack is empty.
 local notify = require("noice").notify
 local find_in_table = require("utils.tables.find")
 local table_length = require("utils.tables.length")
-local deep_copy = require("utils.tables.deep_copy")
+local confirm_save = require("utils.buffers.confirm_save")
 
-local skip_buffers = { "neo-tree", "noice", "alpha" }
-local win_buf_stack = {}
+-- This table tracks buffers opened in windows and allows for buffer management
+local buffer_stacks = {}
 
 local function get_current()
   local bufnr = vim.api.nvim_get_current_buf()
@@ -12,39 +14,40 @@ local function get_current()
   return winnr, bufnr
 end
 
-local function sync_bufs(listed_bufs)
-  local nvim_bufs = vim.api.nvim_list_bufs()
-
-  local new_bufs_table = {}
-  for _, listed_buf in ipairs(listed_bufs) do
-    for _, existing_buf in ipairs(nvim_bufs) do
-      if listed_buf == existing_buf and vim.api.nvim_buf_is_loaded(existing_buf) then
-        table.insert(new_bufs_table, existing_buf)
-        break
-      end
+local function get_valid_buffers(buf_list)
+  local valid_bufs = {}
+  for _, buf in ipairs(buf_list) do
+    if vim.api.nvim_buf_is_valid(buf) then
+      table.insert(valid_bufs, buf)
     end
   end
-  return new_bufs_table
+  return valid_bufs
 end
 
-local function sync_windows()
-  local current_windows = vim.api.nvim_list_wins()
-
-  for history_window, _ in pairs(win_buf_stack) do
-    local should_remove = true
-    for _, existing_window in ipairs(current_windows) do
-      if history_window == existing_window then
-        should_remove = false
-        break
-      end
+local function list_windows_rendering_buffer(bufnr)
+  local windows_buffer = {}
+  for winnr, bufs in pairs(buffer_stacks) do
+    if bufnr == bufs[1] then
+      table.insert(windows_buffer, { window = winnr, has_single_buffer = #bufs == 1 })
     end
-    if should_remove then
-      win_buf_stack[history_window] = nil
+  end
+  return windows_buffer
+end
+
+local function sync_stacks()
+  local active_windows = vim.api.nvim_list_wins()
+
+  for tracked_window, tracked_buffers_list in pairs(buffer_stacks) do
+    local is_tracked_window_open = vim.tbl_contains(active_windows, tracked_window)
+    if is_tracked_window_open then
+      buffer_stacks[tracked_window] = get_valid_buffers(tracked_buffers_list)
+    else
+      buffer_stacks[tracked_window] = nil
     end
   end
 end
 
-local function set_win_former_buf(winnr, buf_list)
+local function set_stack_former_buf(winnr, buf_list)
   if table_length(buf_list) <= 1 then
     return buf_list
   end
@@ -53,50 +56,59 @@ local function set_win_former_buf(winnr, buf_list)
   return buf_list
 end
 
-local function update_win_stack(winnr, buf_list)
-  win_buf_stack[winnr] = buf_list
+local function update_stack(winnr, buf_list)
+  buffer_stacks[winnr] = buf_list
 end
 
-local function should_skip(winnr, bufnr)
-  local windowType = vim.api.nvim_win_get_option(winnr, "winhl")
-  if windowType ~= nil and windowType ~= "" then
+local function should_skip(win_id, buf_id)
+  -- Skip invalid buffers or non-file buffers
+  if
+    not vim.api.nvim_buf_is_valid(buf_id)
+    or vim.api.nvim_get_option_value("buftype", { scope = "local", buf = buf_id }) ~= ""
+  then
     return true
   end
-  if bufnr ~= nil then
-    local current_filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
-    for _, skip_filetype in ipairs(skip_buffers) do
-      if skip_filetype == current_filetype then
-        return true
-      end
-    end
+
+  -- Skip floating windows
+  if vim.api.nvim_win_get_config(win_id).relative ~= "" then
+    return true
   end
+
+  -- Skip windows without normal buffers
+  local buf_in_win = vim.api.nvim_win_get_buf(win_id)
+  if vim.api.nvim_get_option_value("buftype", { scope = "local", buf = buf_in_win }) ~= "" then
+    return true
+  end
+
   return false
+end
+
+local function track_buffer()
+  local winnr, bufnr = get_current()
+  if should_skip(winnr, bufnr) then
+    return
+  end
+  local bufs_in_window = buffer_stacks[winnr]
+  if bufs_in_window == nil then
+    buffer_stacks[winnr] = { bufnr }
+    return
+  end
+  local current_buffer_pos = find_in_table(bufs_in_window, bufnr)
+  if current_buffer_pos ~= nil and current_buffer_pos > 1 then
+    table.remove(bufs_in_window, current_buffer_pos)
+  end
+  if current_buffer_pos == nil or current_buffer_pos > 1 then
+    table.insert(bufs_in_window, 1, bufnr)
+  end
 end
 
 return {
 
   --Called by autocommand on BufEnter, BufNewFile and WinLeave
-  add_buffer = function()
-    local winnr, bufnr = get_current()
-    if should_skip(winnr, bufnr) then
-      return
-    end
-    local bufs_in_window = win_buf_stack[winnr]
-    if bufs_in_window == nil then
-      win_buf_stack[winnr] = { bufnr }
-      return
-    end
-    local current_buffer_pos = find_in_table(bufs_in_window, bufnr)
-    if current_buffer_pos ~= nil and current_buffer_pos > 1 then
-      table.remove(bufs_in_window, current_buffer_pos)
-    end
-    if current_buffer_pos == nil or current_buffer_pos > 1 then
-      table.insert(bufs_in_window, 1, bufnr)
-    end
-  end,
+  add_buffer = track_buffer,
 
   -- Called by autocommand on WinClosed
-  sync_windows = sync_windows,
+  sync_windows = sync_stacks,
 
   -- Split the window moving the current buffer to the new window and leaving in the current position
   -- the former buffer. If no former buffer split window and buffer
@@ -109,86 +121,33 @@ return {
       command = "split"
     end
     vim.cmd(command)
-    local new_bufs = set_win_former_buf(winnr, sync_bufs(win_buf_stack[winnr]))
-    update_win_stack(winnr, new_bufs)
+    local new_bufs = set_stack_former_buf(winnr, get_valid_buffers(buffer_stacks[winnr]))
+    update_stack(winnr, new_bufs)
   end,
 
   -- Deletes current buffer and closes window when there are no former buffers
   del_buf_auto_close_win = function()
-    local winnr, bufnr = get_current()
-    local is_modified = vim.api.nvim_buf_get_option(bufnr, "modified")
+    local _, bufnr = get_current()
 
-    --Get all windows rendering the current buffer
-    local windows_with_current_buffer = {}
-    for win, stack in pairs(win_buf_stack) do
-      if stack[1] == bufnr then
-        table.insert(windows_with_current_buffer, win)
-      end
-    end
-
-    -- Create vars to gather data required to restore
-    local data_backup = {}
-    local floating_windows = {}
-
-    --Sync and set former buffer on the windows that render the current buffer
-    for _, win in ipairs(windows_with_current_buffer) do
-      --sync bufs and save restoring data
-      local synced_bufs = sync_bufs(win_buf_stack[win])
-      data_backup[win] = deep_copy(synced_bufs)
-
-      -- Create a floating window with current buffer to mask that other
-      -- windows have changed the buffer to the former one while prompt
-      -- to save the file is on
-      if is_modified then
-        vim.api.nvim_set_current_win(win)
-        local width = vim.api.nvim_win_get_width(win)
-        local height = vim.api.nvim_win_get_height(win)
-        vim.api.nvim_open_win(
-          bufnr,
-          true,
-          { relative = "win", focusable = false, style = "minimal", row = 0, col = 0, width = width, height = height }
-        )
-        local float_win, _ = get_current()
-        table.insert(floating_windows, float_win)
-      end
-
-      --set former buffer
-      local new_bufs = set_win_former_buf(win, synced_bufs)
-      update_win_stack(win, new_bufs)
-    end
-
-    vim.api.nvim_set_current_win(winnr)
-    vim.api.nvim_set_current_buf(bufnr)
-
-    --Try to delete the buffer
-    vim.cmd("silent! confirm bdelete" .. bufnr)
-
-    --If operation cancelled, restore buffers back to the windows
-    if is_modified and vim.api.nvim_buf_is_loaded(bufnr) then
-      notify("Operation cancelled", vim.log.levels.WARN, { title = "Delete buffer" })
-      for win, buf_list in pairs(data_backup) do
-        vim.api.nvim_win_set_buf(win, buf_list[1])
-        update_win_stack(win, buf_list)
-      end
-      for _, float_win in ipairs(floating_windows) do
-        vim.api.nvim_win_close(float_win, true)
-      end
-    end
-
-    --If no buffers render alpha
-    sync_windows()
-    if table_length(win_buf_stack) == 1 then
-      for _, bufs in pairs(win_buf_stack) do
-        local synced_bufs = sync_bufs(bufs)
-        local file_name = vim.api.nvim_buf_get_name(synced_bufs[1])
-        local is_not_file = file_name == nil or file_name == ""
-        local buffer_content = vim.api.nvim_buf_get_lines(synced_bufs[1], 0, -1, false)
-        local is_empty = #buffer_content[1] == 0
-        if table_length(synced_bufs) == 1 and is_not_file and is_empty then
-          vim.cmd("Alpha")
-          vim.cmd("silent! bdelete" .. synced_bufs[1])
+    -- Find the windows that have only the current buffer tracked;
+    local windows_rendering_buffer = list_windows_rendering_buffer(bufnr)
+    local is_saved = confirm_save(bufnr)
+    if is_saved then
+      for _, window_with_buffer in ipairs(windows_rendering_buffer) do
+        if window_with_buffer.has_single_buffer then
+          -- delete the window if it has only the current buffer
+          if table_length(buffer_stacks) > 1 then
+            vim.api.nvim_win_close(window_with_buffer.window, true) -- `true` forces the window to close without saving
+          end
+        else
+          -- Render former buffer if the window has more buffers
+          set_stack_former_buf(window_with_buffer.window, buffer_stacks[window_with_buffer.window])
         end
       end
+      vim.api.nvim_buf_delete(bufnr, {})
+    else
+      notify("Operation cancelled", vim.log.levels.WARN, { title = "Delete buffer" })
     end
+    sync_stacks()
   end,
 }
